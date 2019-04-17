@@ -1,0 +1,47 @@
+/*colors*/
+$cool-grey: #9d9fa2;
+$orangey-yellow: #fdbf11;
+$hot-pink: #ec008b;
+$dirty-purple: #5c5859;
+$mid-green: #55b748;
+$tomato: #db2b27;
+$black: #333333;
+$gray: #e6e5e5;
+$soft-blue: #73bfe2;
+$twilight-blue: #0a4c6a;
+$light-teal: #a2d4ec;
+$nice-blue: #12719e;
+$soft-green: #78c26d;
+$pale-magenta: #e46aa7;
+$dark-orange: #ca5800;
+$blush: #f1aaa9;
+$purple-grey: #848081;
+$cerulean: #0096d2;
+$light-cerulean:#1696d2;
+
+$light-orangey-yellow: #f8e71c;
+$dark-orangey-yellow: #e88e2d;
+
+// Media Query sizes
+$MaxDesktopSize: 1100px;
+$MaxOpenSize: 1050px;
+$MaxTabletSize: 850px;
+$MaxPhoneSize:	600px;
+$MidPhoneSize: 500px;
+
+// Widths
+$rightRailWidthFull: 300px;
+$leftSideTitle: 150px;
+$indent: 27px;
+
+
+.hide-for-mobile-only {
+	display: block;	
+}
+
+.show-for-mobile-only {
+	display: none;
+}
+
+
+

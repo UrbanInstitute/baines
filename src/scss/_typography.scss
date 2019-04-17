@@ -1,0 +1,73 @@
+/* Text styles */
+
+h1 {
+	font-family: Lato;	
+    // font-size: 2em;
+    line-height: 28px;
+    font-size: 28px;
+    font-weight: 700;
+    // text-align: center;
+    color: #333;
+}
+
+h2 {
+	font-family: Lato;
+	font-size: 22px;
+    line-height: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-align: left;
+    color: #333;
+}
+
+p {
+	margin-bottom: 12px;
+	margin-top: 0;
+	font-size: 12px;
+	font-family: Lato, sans-serif;
+    color: #333;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+}
+
+#lede p {
+    font-size: 17px;
+    line-height: 24px;    
+}
+
+a {
+    color: $light-cerulean;	
+}
+
+.date {	
+    color: #353535;
+    font-size: 14px;
+}
+
+
+
+// @media (max-width: $MaxDesktopSize){
+
+// }
+
+// Can edit these break points as time goes on. 
+@media (max-width: $MaxTabletSize){
+    h1 {                
+        line-height: 26px;
+        font-size: 22px;
+        max-width: 90%;
+        margin: 0 auto;        
+    }
+    h2 {
+
+    }
+    p {}
+    #lede p {
+        // font-size: 14px;
+        // line-height: 22px;
+    }
+    a {}
+    .date {}
+}
