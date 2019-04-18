@@ -4,20 +4,20 @@ var
   gulp = require('gulp'),
   newer = require('gulp-newer'),
   imagemin = require('gulp-imagemin'),
-	htmlclean = require('gulp-htmlclean'),
-	concat = require('gulp-concat'),
+  htmlclean = require('gulp-htmlclean'),
+  concat = require('gulp-concat'),
   deporder = require('gulp-deporder'),
   stripdebug = require('gulp-strip-debug'),
   babel = require("gulp-babel"),
   uglify = require('gulp-uglify'),
- 	sass = require('gulp-sass'),
+  sass = require('gulp-sass'),
   postcss = require('gulp-postcss'),
   assets = require('postcss-assets'),
   autoprefixer = require('autoprefixer'),
   mqpacker = require('css-mqpacker'),
   cssnano = require('cssnano'),
-	hb = require('gulp-hb'),
-	frontMatter = require('gulp-front-matter');
+  hb = require('gulp-hb'),
+  frontMatter = require('gulp-front-matter');
 
   // development mode?
   devBuild = (process.env.NODE_ENV !== 'production'),
@@ -47,8 +47,8 @@ function inject() {
     return gulp
         .src('src/*.html')
         .pipe(frontMatter({
-	      	property: 'data.frontMatter'
-	    	}))
+          property: 'data.frontMatter'
+        }))
         .pipe(hb()
             .partials('./src/html/partials/**/*.hbs')
             // .helpers('./src/assets/helpers/*.js')
@@ -81,7 +81,7 @@ gulp.task('libs', function() {
   var jsbuild = gulp.src(folder.src + 'js/utils/lib/*')
     .pipe(deporder())
     .pipe(concat('libs.js'))
-  	// .pipe(babel())
+    // .pipe(babel())
     // .pipe(stripdebug())
     .pipe(uglify());
 
@@ -99,7 +99,7 @@ gulp.task('utils', gulp.series('libs', function() {
 
   if (!devBuild) {
     jsbuild = jsbuild
-	    .pipe(babel())
+      .pipe(babel())
       .pipe(stripdebug())
       .pipe(uglify());
   }
@@ -108,24 +108,24 @@ gulp.task('utils', gulp.series('libs', function() {
 }));
 
 gulp.task('js', gulp.series('utils', function() {
-	var
-	  out = folder.build + 'js/',
-	  file = gulp.src(folder.src + 'js/apps/*')
+  var
+    out = folder.build + 'js/',
+    file = gulp.src(folder.src + 'js/apps/*')
       // .pipe(newer(out))
       // .pipe(babel())
       // .pipe(stripdebug())
       // .pipe(uglify());
 
-	return file.pipe(gulp.dest(out))
+  return file.pipe(gulp.dest(out))
 }))
 
 // CSS processing
 gulp.task('css', gulp.series('images', function() {
 
   var postCssOpts = [
-	  assets({ loadPaths: ['images/'] }),
-	  autoprefixer({ browsers: ['last 2 versions', '> 2%'] }),
-	  mqpacker
+    assets({ loadPaths: ['images/'] }),
+    autoprefixer({ browsers: ['last 2 versions', '> 2%'] }),
+    mqpacker
   ];
 
   if (!devBuild) {
@@ -149,14 +149,14 @@ gulp.task('run', gulp.series('html', 'css', 'js'));
 
 // Watch files
 function watchFiles() {
-	  // css changes
+    // css changes
   gulp.watch(folder.src + 'scss/**/*', gulp.task('css'));
 
   // image changes
   gulp.watch(folder.src + 'images/**/*', gulp.task('images'));
 
   // html changes
-  gulp.watch(folder.src + 'html/**/*', gulp.task('html'));
+  gulp.watch(folder.src + '**/*{.html,.hbs}', gulp.task('html'));
 
   // javascript changes
   gulp.watch(folder.src + 'js/**/*', gulp.task('js'));
