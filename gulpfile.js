@@ -28,7 +28,8 @@ var
   // folders
   folder = {
     src: 'src/',
-    build: 'build/'
+    build: 'build/',
+    tmp: 'tmp/'
   }
 ;
 
@@ -54,7 +55,7 @@ function inject() {
             // .data('./src/assets/data/**/*.{js,json}')
         )
 
-        .pipe(gulp.dest('build'));
+        .pipe(gulp.dest('tmp'));
 }
 
 gulp.task('inject', inject);
@@ -63,7 +64,7 @@ gulp.task('inject', inject);
 gulp.task('html', gulp.series('inject','images', function() {
   var
     out = folder.build,
-    page = gulp.src(folder.build + '*.html')      
+    page = gulp.src(folder.tmp + '*.html')      
 
   // minify production code
   if (!devBuild) {
@@ -85,14 +86,14 @@ gulp.task('libs', function() {
     .pipe(uglify());
 
   // Add a concatenated libs.js file to the utils src directory for next 
-  return jsbuild.pipe(gulp.dest(folder.src + 'js/utils/'));
+  return jsbuild.pipe(gulp.dest(folder.tmp + 'js/utils/'));
 
 });
 
 // compile libraries and then scripts
 gulp.task('utils', gulp.series('libs', function() {
 
-  var jsbuild = gulp.src(folder.src + 'js/utils/*')
+  var jsbuild = gulp.src(folder.tmp + 'js/utils/*')
     .pipe(deporder())
     .pipe(concat('utils.js'));
 
