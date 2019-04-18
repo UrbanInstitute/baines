@@ -1,5 +1,13 @@
 ## The Urban Institute's Gulp Rig
 
+### rough getting started guide
+
+* clone this repo
+* run `npm install`
+* change name/details inside package.json
+* modify github remote accordingly
+
+
 ### Available commands
 
 See gulpfile.js for full list of tasks
