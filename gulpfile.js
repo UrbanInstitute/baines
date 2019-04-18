@@ -21,6 +21,8 @@ var
 
   // development mode?
   devBuild = (process.env.NODE_ENV !== 'production'),
+
+  // for testing the production build, do this
   // devBuild = (process.env.NODE_ENV === 'production'),
 
   // folders
