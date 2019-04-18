@@ -2,6 +2,7 @@
 libs.js
 states.js
 meta.js
+domFunctions.js
 */
 
 // functions contained here

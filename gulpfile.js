@@ -16,6 +16,8 @@ var
   autoprefixer = require('autoprefixer'),
   mqpacker = require('css-mqpacker'),
   cssnano = require('cssnano'),
+	hb = require('gulp-hb'),
+	frontMatter = require('gulp-front-matter');
 
   // development mode?
   devBuild = (process.env.NODE_ENV !== 'production'),
@@ -37,12 +39,29 @@ gulp.task('images', function() {
     .pipe(gulp.dest(out));
 });
 
+// template injection
+function inject() {
+    return gulp
+        .src('src/html/*.html')
+        .pipe(frontMatter({
+	      	property: 'data.frontMatter'
+	    	}))
+        .pipe(hb()
+            .partials('./src/html/partials/**/*.hbs')
+            // .helpers('./src/assets/helpers/*.js')
+            // .data('./src/assets/data/**/*.{js,json}')
+        )
+
+        .pipe(gulp.dest('build'));
+}
+
+gulp.task('inject', inject);
+
 // html process
-gulp.task('html', gulp.series('images', function() {
+gulp.task('html', gulp.series('inject','images', function() {
   var
     out = folder.build,
-    page = gulp.src(folder.src + 'html/**/*')
-      .pipe(newer(out));
+    page = gulp.src(folder.build + '*.html')      
 
   // minify production code
   if (!devBuild) {
@@ -61,7 +80,7 @@ gulp.task('libs', function() {
     .pipe(concat('libs.js'))
   	// .pipe(babel())
     // .pipe(stripdebug())
-    // .pipe(uglify());
+    .pipe(uglify());
 
   // Add a concatenated libs.js file to the utils src directory for next 
   return jsbuild.pipe(gulp.dest(folder.src + 'js/utils/'));

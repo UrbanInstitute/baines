@@ -2,6 +2,7 @@
 libs.js
 states.js
 meta.js
+parallel.js
 */
 
 // Functions loaded here
