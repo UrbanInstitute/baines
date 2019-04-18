@@ -45,7 +45,7 @@ gulp.task('images', function() {
 // template injection
 function inject() {
     return gulp
-        .src('src/html/*.html')
+        .src('src/*.html')
         .pipe(frontMatter({
 	      	property: 'data.frontMatter'
 	    	}))
