@@ -45,6 +45,12 @@ Ordering of JS
 
 ### Needed improvements
 
+- Change tmp to .tmp/
+- Graphics rig asks questions (similar to yeoman)
+- Make it not minified for html
+- Make it say go to GitHub for not minified code
+- improve the install process. (make a package?)
+
 - Continuous integration 
 - Pym.js support
 - More sophisticated require or webpack type js management
