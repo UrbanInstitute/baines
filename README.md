@@ -49,7 +49,8 @@ Ordering of JS
 - Graphics rig asks questions (similar to yeoman)
 - Make it not minified for html
 - Make it say go to GitHub for not minified code
-- improve the install process. (make a package?)
+- improve the install process. (make a package? so that you don't have to reassign the git remote)
+- switch var to const in gulpfile for requires
 
 - Continuous integration 
 - Pym.js support
