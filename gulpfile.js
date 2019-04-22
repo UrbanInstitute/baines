@@ -1,41 +1,43 @@
 // Gulp.js configuration
-var
+
   // modules
-  gulp = require('gulp'),
-  newer = require('gulp-newer'),
-  imagemin = require('gulp-imagemin'),
-  htmlclean = require('gulp-htmlclean'),
-  concat = require('gulp-concat'),
-  deporder = require('gulp-deporder'),
-  stripdebug = require('gulp-strip-debug'),
-  babel = require("gulp-babel"),
-  uglify = require('gulp-uglify'),
-  sass = require('gulp-sass'),
-  postcss = require('gulp-postcss'),
-  assets = require('postcss-assets'),
-  autoprefixer = require('autoprefixer'),
-  mqpacker = require('css-mqpacker'),
-  cssnano = require('cssnano'),
-  hb = require('gulp-hb'),
-  frontMatter = require('gulp-front-matter');
+const gulp = require('gulp');
+const newer = require('gulp-newer');
+const imagemin = require('gulp-imagemin');
+const htmlclean = require('gulp-htmlclean');
+const concat = require('gulp-concat');
+const deporder = require('gulp-deporder');
+const stripdebug = require('gulp-strip-debug');
+const babel = require("gulp-babel");
+const uglify = require('gulp-uglify');
+const sass = require('gulp-sass');
+const postcss = require('gulp-postcss');
+const assets = require('postcss-assets');
+const autoprefixer = require('autoprefixer');
+const mqpacker = require('css-mqpacker');
+const cssnano = require('cssnano');
+const hb = require('gulp-hb');
+const frontMatter = require('gulp-front-matter');
 
   // development mode?
-  devBuild = (process.env.NODE_ENV !== 'production'),
-
-  // for testing the production build, do this
-  // devBuild = (process.env.NODE_ENV === 'production'),
+let devBuild = (process.env.NODE_ENV !== 'production');
 
   // folders
-  folder = {
+const folder = {
     src: 'src/',
     build: 'build/',
-    tmp: 'tmp/'
-  }
-;
+    tmp: '.tmp/',
+    public: 'public/'
+  };
 
 // image processing
 gulp.task('images', function() {
-  var out = folder.build + 'images/';
+  if (!devBuild) {
+    var out = folder.public + 'images/';
+  } else {
+    var out = folder.build + 'images/';
+  }
+  
   return gulp.src(folder.src + 'images/**/*')
     .pipe(newer(out))
     .pipe(imagemin({ optimizationLevel: 5 }))
@@ -55,16 +57,20 @@ function inject() {
             // .data('./src/assets/data/**/*.{js,json}')
         )
 
-        .pipe(gulp.dest('tmp'));
+        .pipe(gulp.dest(folder.tmp));
 }
 
 gulp.task('inject', inject);
 
 // html process
 gulp.task('html', gulp.series('inject','images', function() {
-  var
-    out = folder.build,
-    page = gulp.src(folder.tmp + '*.html')      
+  if (!devBuild) {
+    var out = folder.public;
+  } else {
+    var out = folder.build;
+  }
+  
+  var page = gulp.src(folder.tmp + '*.html')      
 
   // minify production code
   if (!devBuild) {
@@ -78,24 +84,29 @@ gulp.task('html', gulp.series('inject','images', function() {
 // compile libraries
 gulp.task('libs', function() {
 
-  var jsbuild = gulp.src(folder.src + 'js/utils/lib/*')
+  var jsbuild = gulp.src(folder.src + 'js/scripts/lib/*')
     .pipe(deporder())
     .pipe(concat('libs.js'))
     // .pipe(babel())
     // .pipe(stripdebug())
     .pipe(uglify());
 
-  // Add a concatenated libs.js file to the utils src directory for next 
-  return jsbuild.pipe(gulp.dest(folder.tmp + 'js/utils/'));
+  // Add a concatenated libs.js file to the scripts src directory for next 
+  return jsbuild.pipe(gulp.dest(folder.tmp + 'js/scripts/'));
 
 });
 
 // compile libraries and then scripts
-gulp.task('utils', gulp.series('libs', function() {
+gulp.task('scripts', gulp.series('libs', function() {
+  if (!devBuild) {
+    var out = folder.public;
+  } else {
+    var out = folder.build;
+  }
 
-  var jsbuild = gulp.src(folder.tmp + 'js/utils/*')
+  var jsbuild = gulp.src(folder.tmp + 'js/scripts/*')
     .pipe(deporder())
-    .pipe(concat('utils.js'));
+    .pipe(concat('scripts.js'));
 
   if (!devBuild) {
     jsbuild = jsbuild
@@ -104,23 +115,33 @@ gulp.task('utils', gulp.series('libs', function() {
       .pipe(uglify());
   }
 
-  return jsbuild.pipe(gulp.dest(folder.build + 'js/'));
+  return jsbuild.pipe(gulp.dest(out + 'js/'));
 }));
 
-gulp.task('js', gulp.series('utils', function() {
-  var
-    out = folder.build + 'js/',
-    file = gulp.src(folder.src + 'js/apps/*')
+gulp.task('js', gulp.series('scripts', function() {
+  if (!devBuild) {
+    var out = folder.public;
+  } else {
+    var out = folder.build;
+  }
+
+  var file = gulp.src(folder.src + 'js/apps/*')
       // .pipe(newer(out))
       // .pipe(babel())
       // .pipe(stripdebug())
       // .pipe(uglify());
 
-  return file.pipe(gulp.dest(out))
+  return file.pipe(gulp.dest(out + 'js'))
 }))
 
 // CSS processing
 gulp.task('css', gulp.series('images', function() {
+
+  if (!devBuild) {
+    var out = folder.public;
+  } else {
+    var out = folder.build;
+  }
 
   var postCssOpts = [
     assets({ loadPaths: ['images/'] }),
@@ -140,12 +161,13 @@ gulp.task('css', gulp.series('images', function() {
       errLogToConsole: true
     }))
     .pipe(postcss(postCssOpts))
-    .pipe(gulp.dest(folder.build + 'css/'));
+    .pipe(gulp.dest(out + 'css/'));
 
 }));
 
 // run all tasks
 gulp.task('run', gulp.series('html', 'css', 'js'));
+
 
 // Watch files
 function watchFiles() {
@@ -163,6 +185,4 @@ function watchFiles() {
 
 }
 
-
 gulp.task('watch',watchFiles)
-

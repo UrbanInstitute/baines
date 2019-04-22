@@ -1,4 +1,4 @@
-## The Urban Institute's Gulp Rig
+## The Urban Institute's Baines Rig
 
 ### rough getting started guide
 
@@ -15,6 +15,14 @@ See gulpfile.js for full list of tasks
 `gulp run` will compile everything
 
 `gulp watch` will watch for changes
+
+In order to compile the `public/` folder, set the node environment to production by entering the following:
+
+`export NODE_ENV=production`
+
+Then run `gulp run` and check that the `build/` folder looks correct.
+
+*Note! Each time you restart your terminal your NODE_ENV will reset*
 
 ### Modifying and adjusting for your needs
 
@@ -44,13 +52,6 @@ Ordering of JS
 
 
 ### Needed improvements
-
-- Change tmp to .tmp/
-- Graphics rig asks questions (similar to yeoman)
-- Make it not minified for html
-- Make it say go to GitHub for not minified code
-- improve the install process. (make a package? so that you don't have to reassign the git remote)
-- switch var to const in gulpfile for requires
 
 - Continuous integration 
 - Pym.js support
