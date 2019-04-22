@@ -1,4 +1,8 @@
-## The Urban Institute's Baines Rig
+## Baines
+
+A gulp flavored build tool for quick and modular charts, features, and pym iframes.
+
+![](https://cdn.theatlantic.com/assets/media/img/mt/2018/08/GettyImages_615297724/lead_720_405.jpg?mod=1535079025)
 
 ### rough getting started guide
 
@@ -37,7 +41,8 @@ Getting started, I followed [this tutorial](https://www.sitepoint.com/introducti
 
 HTML templating and precompile injection: [Gulp-hb](https://github.com/shannonmoeller/gulp-hb#file-specific-data-sources)
 
-- [Handlebars API](http://handlebarsjs.com/)
+- [Handlebars API](http://handlebarsjs.com/), including [this helper](https://code-maven.com/handlebars-conditionals)
+
 
 Transpiling: Babel and Browserslist
 
@@ -47,7 +52,6 @@ Transpiling: Babel and Browserslist
 Ordering of JS
 
 - [deporder](https://www.npmjs.com/package/gulp-deporder): this allows us to order the js without using imports/require statements.
-
 
 
 

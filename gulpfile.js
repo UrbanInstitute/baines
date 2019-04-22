@@ -22,6 +22,7 @@ const frontMatter = require('gulp-front-matter');
   // development mode?
 let devBuild = (process.env.NODE_ENV !== 'production');
 
+
   // folders
 const folder = {
     src: 'src/',
@@ -53,7 +54,15 @@ function inject() {
         }))
         .pipe(hb()
             .partials('./src/html/partials/**/*.hbs')
-            // .helpers('./src/assets/helpers/*.js')
+            .helpers({
+              if_eq: function(a, b, opts) {
+                  if (a == b) {
+                      return opts.fn(this);
+                  } else {
+                      return opts.inverse(this);
+                  }
+              }
+            })
             // .data('./src/assets/data/**/*.{js,json}')
         )
 
@@ -90,6 +99,10 @@ gulp.task('libs', function() {
     // .pipe(babel())
     // .pipe(stripdebug())
     .pipe(uglify());
+
+  // move all js scripts over to tmp ahead of next task
+  var jsbuild1 = gulp.src(folder.src + 'js/scripts/*')
+    .pipe(gulp.dest(folder.tmp + 'js/scripts/'))
 
   // Add a concatenated libs.js file to the scripts src directory for next 
   return jsbuild.pipe(gulp.dest(folder.tmp + 'js/scripts/'));
