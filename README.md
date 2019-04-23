@@ -24,9 +24,16 @@ In order to compile the `public/` folder, set the node environment to production
 
 `export NODE_ENV=production`
 
-Then run `gulp run` and check that the `build/` folder looks correct.
+Then run `gulp run` and check that the `public/` folder looks correct.
 
 *Note! Each time you restart your terminal your NODE_ENV will reset*
+
+After this, if you want to push to the gh-pages branch use the following command:
+
+`git add public && git commit -m "Some commit message"`
+`git subtree push --prefix public origin gh-pages`
+
+cf: https://gist.github.com/cobyism/4730490
 
 ### Modifying and adjusting for your needs
 
