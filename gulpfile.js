@@ -178,8 +178,33 @@ gulp.task('css', gulp.series('images', function() {
 
 }));
 
+gulp.task("warn", function(done){
+  let intro = `\n\t\tWelcome to...\t\t\n\n`
+
+  let name = 
+`🤠 🤠 🤠 🤠                   🤠                                                 \n` +
+` 🤠     🤠                                                                          \n` +
+` 🤠     🤠    🤠 🤠 🤠      🤠 🤠      🤠 🤠 🤠 🤠      🤠 🤠 🤠 🤠      🤠 🤠 🤠 🤠    \n` +
+` 🤠 🤠 🤠 🤠          🤠      🤠      🤠      🤠    🤠       🤠   🤠               \n` +
+` 🤠     🤠   🤠 🤠 🤠 🤠      🤠      🤠      🤠    🤠 🤠 🤠 🤠 🤠    🤠 🤠 🤠 🤠    \n` +
+` 🤠     🤠  🤠     🤠      🤠      🤠      🤠    🤠                     🤠     \n` +
+`🤠 🤠 🤠 🤠    🤠 🤠 🤠     🤠 🤠 🤠    🤠 🤠    🤠     🤠 🤠 🤠 🤠     🤠 🤠 🤠 🤠    \n`;
+
+  let messageNext;
+  if (!devBuild) {
+    messageNext =`\n🐩\trunning production build, sending to ${folder.public}\t 🐩\n`
+  } else {
+    messageNext =`\n🙈 \t running development build, sending to ${folder.build}\t 🙈\n`
+  }
+  let message = intro  +name + messageNext;
+  console.log(message)
+  done();
+})
+
+  
+
 // run all tasks
-gulp.task('run', gulp.series('html', 'css', 'js'));
+gulp.task('run', gulp.series('warn', 'html', 'css', 'js'));
 
 
 // Watch files
