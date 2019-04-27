@@ -1,4 +1,27 @@
-This is a test
-<h1>Header</h1>
-
-{{frontMatter.author.test2}}
+{{#if_eq context.headLong true}}
+<div class="header-container container">
+{{else}}	
+<div class="header-container container sub">
+{{/if_eq}}
+	<div class="inner">
+		<div class="header-top">
+			<div class="left">
+				<div class="urban-logo">
+					<a href="https://www.urban.org/" target="_blank"><img src="./images/urban_grid_blue_rev.svg"></a>
+				</div>
+				<div class="title">Baines</div>
+			</div>			
+		</div>	
+		{{#if_eq context.headLong true}}
+			<div class="header-details">
+				<h2>{{context.title}}</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+		{{else}}
+			<div class="header-details shorter">
+				<h2>{{context.title}}</h2>
+			</div>
+		 {{/if_eq}}
+		
+	</div>
+</div>

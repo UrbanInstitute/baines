@@ -63,7 +63,8 @@ Ordering of JS
 
 
 ### Needed improvements
-
+- clean out .tmp/,build/, and public/ on deploys
+- full readme
 - Continuous integration 
 - Pym.js support
 - More sophisticated require or webpack type js management

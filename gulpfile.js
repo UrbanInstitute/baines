@@ -6,7 +6,6 @@ const newer = require('gulp-newer');
 const imagemin = require('gulp-imagemin');
 const htmlclean = require('gulp-htmlclean');
 const concat = require('gulp-concat');
-const deporder = require('gulp-deporder');
 const stripdebug = require('gulp-strip-debug');
 const babel = require("gulp-babel");
 const uglify = require('gulp-uglify');
@@ -18,10 +17,10 @@ const mqpacker = require('css-mqpacker');
 const cssnano = require('cssnano');
 const hb = require('gulp-hb');
 const frontMatter = require('gulp-front-matter');
+const include = require('gulp-include');
 
   // development mode?
 let devBuild = (process.env.NODE_ENV !== 'production');
-
 
   // folders
 const folder = {
@@ -63,7 +62,6 @@ function inject() {
                   }
               }
             })
-            // .data('./src/assets/data/**/*.{js,json}')
         )
 
         .pipe(gulp.dest(folder.tmp));
@@ -81,71 +79,34 @@ gulp.task('html', gulp.series('inject','images', function() {
   
   var page = gulp.src(folder.tmp + '*.html')      
 
-  // minify production code
-  if (!devBuild) {
-    page = page.pipe(htmlclean());
-  }
+  // minify production code for html...turned off by default
+  // if (!devBuild) {
+  //   page = page.pipe(htmlclean());
+  // }
 
   return page.pipe(gulp.dest(out));
 }));
 
-//  js processes
-// compile libraries
-gulp.task('libs', function() {
-
-  var jsbuild = gulp.src(folder.src + 'js/scripts/lib/*')
-    .pipe(deporder())
-    .pipe(concat('libs.js'))
-    // .pipe(babel())
-    // .pipe(stripdebug())
-    .pipe(uglify());
-
-  // move all js scripts over to tmp ahead of next task
-  var jsbuild1 = gulp.src(folder.src + 'js/scripts/*')
-    .pipe(gulp.dest(folder.tmp + 'js/scripts/'))
-
-  // Add a concatenated libs.js file to the scripts src directory for next 
-  return jsbuild.pipe(gulp.dest(folder.tmp + 'js/scripts/'));
-
-});
-
-// compile libraries and then scripts
-gulp.task('scripts', gulp.series('libs', function() {
+gulp.task('js', function() {
   if (!devBuild) {
     var out = folder.public;
   } else {
     var out = folder.build;
   }
 
-  var jsbuild = gulp.src(folder.tmp + 'js/scripts/*')
-    .pipe(deporder())
-    .pipe(concat('scripts.js'));
+  var file = gulp.src(folder.src + 'js/*')
+    .pipe(include()) 
+      
 
   if (!devBuild) {
-    jsbuild = jsbuild
+    file = file
       .pipe(babel())
       .pipe(stripdebug())
       .pipe(uglify());
   }
 
-  return jsbuild.pipe(gulp.dest(out + 'js/'));
-}));
-
-gulp.task('js', gulp.series('scripts', function() {
-  if (!devBuild) {
-    var out = folder.public;
-  } else {
-    var out = folder.build;
-  }
-
-  var file = gulp.src(folder.src + 'js/apps/*')
-      // .pipe(newer(out))
-      // .pipe(babel())
-      // .pipe(stripdebug())
-      // .pipe(uglify());
-
   return file.pipe(gulp.dest(out + 'js'))
-}))
+})
 
 // CSS processing
 gulp.task('css', gulp.series('images', function() {
@@ -179,32 +140,51 @@ gulp.task('css', gulp.series('images', function() {
 }));
 
 gulp.task("warn", function(done){
-  let intro = `\n\t\tWelcome to...\t\t\n\n`
+  let intro = `\nHowdy! Welcome to...\t\t\n\n`
 
-  let name = 
-`🤠 🤠 🤠 🤠                   🤠                                                 \n` +
-` 🤠     🤠                                                                          \n` +
-` 🤠     🤠    🤠 🤠 🤠      🤠 🤠      🤠 🤠 🤠 🤠      🤠 🤠 🤠 🤠      🤠 🤠 🤠 🤠    \n` +
-` 🤠 🤠 🤠 🤠          🤠      🤠      🤠      🤠    🤠       🤠   🤠               \n` +
-` 🤠     🤠   🤠 🤠 🤠 🤠      🤠      🤠      🤠    🤠 🤠 🤠 🤠 🤠    🤠 🤠 🤠 🤠    \n` +
-` 🤠     🤠  🤠     🤠      🤠      🤠      🤠    🤠                     🤠     \n` +
-`🤠 🤠 🤠 🤠    🤠 🤠 🤠     🤠 🤠 🤠    🤠 🤠    🤠     🤠 🤠 🤠 🤠     🤠 🤠 🤠 🤠    \n`;
+
+  let hat = 
+  "             .~~~~`\\~~\\\n"+
+  "            ;       ~~ \\\n"+
+  "            |           ;\n"+
+  "        ,--------,______|---.\n"+
+  "       /          \\-----`    \\\n"+
+  "       `.__________`-_______-'\n";
+
+
+  let name =
+  "               "  +`🤠🤠🤠🤠🤠🤠                                ` + "               \n" +
+  "               "  +`🤠     🤠   🤠🤠   🤠 🤠    🤠 🤠🤠🤠🤠🤠🤠  🤠🤠🤠🤠  ` + "               \n" +
+  "   _____,,;;;`;"  +`🤠     🤠  🤠  🤠  🤠 🤠🤠   🤠 🤠      🤠      ` + ";';;;,,_____ \n" +
+  ",~(  )  , )~~\\|" +`🤠🤠🤠🤠🤠🤠  🤠    🤠 🤠 🤠 🤠  🤠 🤠🤠🤠🤠🤠   🤠🤠🤠🤠  ` + "|/~~( ,  (  )~; \n" +
+  "' / / --`--,   "  +`🤠     🤠 🤠🤠🤠🤠🤠🤠 🤠 🤠  🤠 🤠 🤠           🤠 ` + "   .--'-- \\ \\ ` \n" +
+  " /  \\    | '   " +`🤠     🤠 🤠    🤠 🤠 🤠   🤠🤠 🤠      🤠    🤠 ` + "   ` |    /  \\ \n" +
+  "               "  +`🤠🤠🤠🤠🤠🤠  🤠    🤠 🤠 🤠    🤠 🤠🤠🤠🤠🤠🤠  🤠🤠🤠🤠  ` + "               \n"
+
 
   let messageNext;
   if (!devBuild) {
-    messageNext =`\n🐩\trunning production build, sending to ${folder.public}\t 🐩\n`
+    messageNext =
+    "\n🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩\n" +
+    `🐩\t\t\t\t\t\t\t\t  🐩\n🐩 \trunning development build, sending to ${folder.public}. Giddyup\t  🐩\n🐩\t\t\t\t\t\t\t\t  🐩\n` +
+    "🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩\n";
+
   } else {
-    messageNext =`\n🙈 \t running development build, sending to ${folder.build}\t 🙈\n`
+    messageNext =
+    "\n🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈\n" +
+    `🙈\t\t\t\t\t\t\t\t  🙈\n🙈  \trunning development build, sending to ${folder.build}. Giddyup\t  🙈\n🙈\t\t\t\t\t\t\t\t  🙈\n` +
+    "🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈\n";
   }
-  let message = intro  +name + messageNext;
+  let message = intro+hat+name  + messageNext;
   console.log(message)
   done();
 })
 
   
+  
 
 // run all tasks
-gulp.task('run', gulp.series('warn', 'html', 'css', 'js'));
+gulp.task('run', gulp.series('warn','html', 'css', 'js'));
 
 
 // Watch files
@@ -223,4 +203,4 @@ function watchFiles() {
 
 }
 
-gulp.task('watch',watchFiles)
+gulp.task('watch',gulp.series('warn',watchFiles));

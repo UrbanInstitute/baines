@@ -1,15 +1,10 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-
 @import "reset";
 @import "variables";
 @import "typography";
 
 //  import other sections of css code
-@import "input";
-@import "spinner";
+// @import "input";
+// @import "spinner";
 
 td {
 	vertical-align: top;
@@ -24,6 +19,38 @@ td {
 }
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; } /* IE < 8 */
+
+.highlight {
+	background-color: #fcf8e5;
+	padding:5px;
+	border-radius:2px;
+	margin-top: -6px;
+    margin-left: 10px;
+	
+	box-sizing: border-box;
+  	box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.4);
+
+	position: relative;
+}
+
+
+.highlight::after{
+	right: 100%;
+	top: 50%;
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+	border-width: 7px;
+	margin-top: -7px;
+	margin-right: -11px;
+    box-sizing: border-box;    
+    border: 0.4em solid black;
+    border-color: transparent transparent #fcf8e5 #fcf8e5;   
+    transform-origin: 0 0;
+    transform: rotate(45deg);
+    box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.4);
+  }
 
 .error-container {
 	position: fixed;
@@ -111,15 +138,16 @@ td {
 	margin: 0 auto;
 }
 
-.red {
-	color: rgb(206,11,36);
 
-	&.disabled {
-		display: none;
+.centered.buttonThree {
+	width: max-content;
+	height: 100px;
+
+	.threeWide {
+		margin-right: 10px;
+		// height: 30px;
 	}
 }
-
-
 
 .tab {
 	cursor: pointer;
@@ -131,7 +159,7 @@ td {
 	-o-transition: background-color 0.2s ease-out;
 	transition: background-color 0.2s ease-out;
 
-	a {
+	a,span {
 		color: #fff;	
 		text-decoration: none;
 		font-family: "Lato",Helvetica,sans-serif;
@@ -143,8 +171,6 @@ td {
 
 	&.latent {
 		background-color: $cerulean;
-
-
 
 			&:hover {
 				background-color: $twilight-blue;
@@ -160,13 +186,17 @@ td {
 	}
 
 	&.generator {
-		background-image: url(../assets/img/cogs-solid.svg);
+		background-image: url(../images/cogs-solid.svg);
 	    background-position: 10px center;
 	    background-size: 30px;   
 	    background-repeat: no-repeat;
 		width: 100px;		
 		padding-left:55px;	
 		padding-right: 10px;
+	}
+
+	&.threeWide {
+		float: left;
 	}
 }
 
@@ -176,13 +206,24 @@ td {
 	padding-top:35px;
 	padding-bottom: 35px;
 	background-image: linear-gradient(
-      rgba(0, 0, 0, 0.6), 
-      rgba(0, 0, 0, 0.6)
-    ), url(../assets/img/istockphoto.jpg);
+	  to bottom right,
+      rgba(0, 0, 0, 1), 
+      rgba(0, 0, 0, 0)
+    ), url(../images/ladybirdjohnson-meadow.jpg);
 
-  background-position: left bottom;
+  background-position: left top;
   background-size: cover; 
   background-repeat: no-repeat;
+
+  &.sub {
+	background-image: linear-gradient(
+	  to bottom right,
+      rgba(0, 0, 0, 0.8), 
+      rgba(0, 0, 0, 0)
+    ), url(../images/LBJ-and-Ladybird-in-wildflowers.jpg);
+
+	background-position: left 40%;	
+  }
 
 	.header-top {
 		height: 50px;
@@ -225,7 +266,7 @@ td {
 		margin-right: 40%;
 
 		&.shorter {
-			padding-bottom: 20px;
+			padding-bottom: 40px;
 		}
 
 		p, h2 {
@@ -246,7 +287,10 @@ td {
 	}
 }
 
+
+
 .body-container {
+	
 	.title-page {
 		.title-page-intro {
 			width:90%;
@@ -423,7 +467,7 @@ td {
 							.checkbox-container {
 								width: 100%;
 								position: relative;
-								background-color: #fff;
+								// background-color: #fff;
 
 								.checkbox {
 									// float: left;
@@ -443,7 +487,7 @@ td {
 									    width: 18px;
 									    content: "";
 									    display: block;
-									    background-image: url(../assets/img/check-solid.svg);
+									    background-image: url(../images/check-solid.svg);
 									    background-position: 0px 0px;
 									    background-size: 15px;
 									    background-repeat: no-repeat;
@@ -451,7 +495,7 @@ td {
     								}
 
     								&.semi::after {
-									    	background-image: url(../assets/img/check-solid-grey.svg);
+									    	background-image: url(../images/check-solid-grey.svg);
 									    }
 								}
 								
@@ -461,7 +505,37 @@ td {
 
 								.c-text {
 									display: inline;
+
+									// &.unavailable {
+									// 	// color: lighten(#000, 80%);
+									// 	&:after {
+									// 	    content: "**";
+									// 	    color: #ce0b24;
+									// 	}
+									// }
 								}
+
+								.unavailable {
+									position:absolute;
+									display: inline;
+								}
+
+								.c-info, .c-years {
+									float: left;
+								}
+
+								.c-years {
+									opacity: 1;
+									// margin-left: 28px;
+									// margin-top: -26px;
+    								white-space: nowrap;
+									transition: opacity 500ms ease-out 0ms;
+
+									&.active {
+										opacity: 1;
+									}
+								}
+
 								.c-title, .c-grouping-container,.c-grouping-combos {
 									// float: left;
 								}
@@ -473,7 +547,7 @@ td {
 									color: #909090;
 								}
 
-								.c-expand {
+								.c-info, .c-expand {
 									height: 15px;
 								    width: 16px;									    
 								    background-position: center center;
@@ -481,15 +555,17 @@ td {
 								    background-repeat: no-repeat;
 								    margin-bottom: -2px;
 								    cursor: pointer;
-								    background-image: url(../assets/img/plus-circle-solid.svg);
-
-									// &.plus {
-										
-									// }
+								    background-image: url(../images/plus-circle-solid.svg);
 
 									&.active {
-										background-image: url(../assets/img/minus-circle-solid.svg);	
-									}
+										background-image: url(../images/minus-circle-solid.svg);	
+									}									
+								}
+
+								.c-info {
+									background-image: url(../images/info-circle-solid.svg);
+									padding-top: 7px;
+									padding-left: 5px;
 								}
 
 								.c-entry {
@@ -642,15 +718,11 @@ td {
 			.estimate-preview {
 				padding-top: 15px;
 				padding-bottom:10px;
-				border-bottom:1px solid rgb(211,211,211);
-
-				.warning {
-					font-size: 10px;
-				}
+				border-bottom:1px solid rgb(211,211,211);				
 
 			}
 
-			.logic-preview {
+			.logic-preview, .attribute-preview {
 				padding-top: 20px;
 				padding-bottom:10px;
 
@@ -672,6 +744,10 @@ td {
 					font-style: italic;
 					text-decoration: underline;
 					text-decoration-color: #fff !important;
+				}
+
+				strong {
+					font-weight: bold;
 				}
 			}
 		}
