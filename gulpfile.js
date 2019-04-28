@@ -21,7 +21,6 @@ const include = require('gulp-include');
 const del = require('del');
 const colors = require('colors');
 
-
 let devBuild = true;
 
   // folders
