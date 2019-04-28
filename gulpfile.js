@@ -18,9 +18,11 @@ const cssnano = require('cssnano');
 const hb = require('gulp-hb');
 const frontMatter = require('gulp-front-matter');
 const include = require('gulp-include');
+const del = require('del');
+const colors = require('colors');
 
-  // development mode?
-let devBuild = (process.env.NODE_ENV !== 'production');
+
+let devBuild = true;
 
   // folders
 const folder = {
@@ -139,11 +141,29 @@ gulp.task('css', gulp.series('images', function() {
 
 }));
 
+gulp.task('cleanBuild', function () {
+
+  if (!devBuild) {
+    var out = folder.public;
+  } else {
+    var out = folder.build;
+  }
+
+  return del([
+    out
+  ]);
+});
+
+gulp.task('cleanTemp', function () {
+
+  return del([
+    '.tmp/'
+  ]);
+});
+
 gulp.task("warn", function(done){
-  let intro = `\nHowdy! Welcome to...\t\t\n\n`
 
-
-  let hat = 
+let hat = 
   "             .~~~~`\\~~\\\n"+
   "            ;       ~~ \\\n"+
   "            |           ;\n"+
@@ -151,44 +171,71 @@ gulp.task("warn", function(done){
   "       /          \\-----`    \\\n"+
   "       `.__________`-_______-'\n";
 
+  let rose = 
+"                     _   / /|           ".green  + "           \n".yellow +
+"                    |\\\\  \\/_/        ".green  + "              \n".yellow +
+"                    \\_\\| / __         ".green  + "             \n".yellow +
+"                       \\/_/__\\        ".green  + "   .-=='/~\\  \n".yellow +
+"                ____,__/__,_____,______)".green  + "/   /{~}}} \n".yellow +
+"                -,------,----,-----,---,".green  + "\\'-' {{~}} \n".yellow;
+  
+let message,
+    roseTip,
+    messageNext,
+    before;
 
-  let name =
-  "               "  +`🤠🤠🤠🤠🤠🤠                                ` + "               \n" +
-  "               "  +`🤠     🤠   🤠🤠   🤠 🤠    🤠 🤠🤠🤠🤠🤠🤠  🤠🤠🤠🤠  ` + "               \n" +
-  "   _____,,;;;`;"  +`🤠     🤠  🤠  🤠  🤠 🤠🤠   🤠 🤠      🤠      ` + ";';;;,,_____ \n" +
-  ",~(  )  , )~~\\|" +`🤠🤠🤠🤠🤠🤠  🤠    🤠 🤠 🤠 🤠  🤠 🤠🤠🤠🤠🤠   🤠🤠🤠🤠  ` + "|/~~( ,  (  )~; \n" +
-  "' / / --`--,   "  +`🤠     🤠 🤠🤠🤠🤠🤠🤠 🤠 🤠  🤠 🤠 🤠           🤠 ` + "   .--'-- \\ \\ ` \n" +
-  " /  \\    | '   " +`🤠     🤠 🤠    🤠 🤠 🤠   🤠🤠 🤠      🤠    🤠 ` + "   ` |    /  \\ \n" +
-  "               "  +`🤠🤠🤠🤠🤠🤠  🤠    🤠 🤠 🤠    🤠 🤠🤠🤠🤠🤠🤠  🤠🤠🤠🤠  ` + "               \n"
-
-
-  let messageNext;
   if (!devBuild) {
+    roseTip = "                    '-==.\\}/  \n".yellow;
+    before = rose;
     messageNext =
     "\n🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩\n" +
-    `🐩\t\t\t\t\t\t\t\t  🐩\n🐩 \trunning development build, sending to ${folder.public}. Giddyup\t  🐩\n🐩\t\t\t\t\t\t\t\t  🐩\n` +
+    `🐩\t\t\t\t\t\t\t\t  🐩\n🐩 \trunning public build, sending to ${folder.public}. Giddyup\t  🐩\n🐩\t\t\t\t\t\t\t\t  🐩\n` +
     "🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩 🐩\n";
 
   } else {
+    roseTip = "\n"
+    before = hat;
     messageNext =
     "\n🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈\n" +
     `🙈\t\t\t\t\t\t\t\t  🙈\n🙈  \trunning development build, sending to ${folder.build}. Giddyup\t  🙈\n🙈\t\t\t\t\t\t\t\t  🙈\n` +
     "🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈 🙈\n";
   }
-  let message = intro+hat+name  + messageNext;
+
+  let intro = `\nHowdy! Welcome to...\t\t\n\n`
+
+  let name =
+  "               "        +`🤠🤠🤠🤠🤠🤠`+ roseTip +
+  "               "        +`🤠     🤠   🤠🤠   🤠 🤠    🤠 🤠🤠🤠🤠🤠🤠  🤠🤠🤠🤠  ` + "               \n" +
+  "   _____,,;;;`;".white  +`🤠     🤠  🤠  🤠  🤠 🤠🤠   🤠 🤠      🤠      ` + ";';;;,,_____ \n".white +
+  ",~(  )  , )~~\\|".white +`🤠🤠🤠🤠🤠🤠  🤠    🤠 🤠 🤠 🤠  🤠 🤠🤠🤠🤠🤠   🤠🤠🤠🤠  ` + "|/~~( ,  (  )~; \n".white +
+  "' / / --`--,   ".white  +`🤠     🤠 🤠🤠🤠🤠🤠🤠 🤠 🤠  🤠 🤠 🤠           🤠 ` + "   .--'-- \\ \\ ` \n".white +
+  " /  \\    | '   ".white +`🤠     🤠 🤠    🤠 🤠 🤠   🤠🤠 🤠      🤠    🤠 ` + "   ` |    /  \\ \n".white +
+  "               "        +`🤠🤠🤠🤠🤠🤠  🤠    🤠 🤠 🤠    🤠 🤠🤠🤠🤠🤠🤠  🤠🤠🤠🤠  ` + "               \n"
+
+  message = intro+before+name  + messageNext;
+
   console.log(message)
   done();
 })
 
-  
-  
+gulp.task("setEnviro", function(done){  
+  devBuild = false;
+
+  done();
+})
 
 // run all tasks
-gulp.task('run', gulp.series('warn','html', 'css', 'js'));
+gulp.task('run', gulp.series('warn','cleanBuild','cleanTemp','html', 'css', 'js','cleanTemp'));
+
+gulp.task('deploy', gulp.series('setEnviro','warn','cleanBuild','cleanTemp','html', 'css', 'js','cleanTemp'));
 
 
 // Watch files
 function watchFiles() {
+
+  // development
+  devBuild = true;
+
     // css changes
   gulp.watch(folder.src + 'scss/**/*', gulp.task('css'));
 

@@ -1,6 +1,6 @@
 {
-  "name": "Baines",
-  "version": "0.1.0",
+  "name": "@urbaninstitute/baines",
+  "version": "0.2.0",
   "description": "Baines",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/UrbanInstitute/baines"
+    "url": "git+https://github.com/UrbanInstitute/baines.git"
   },
   "author": "Daniel Wood",
   "license": "MIT",
@@ -23,9 +23,11 @@
     "autoprefixer": "^9.5.1",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
+    "colors": "^1.3.3",
     "css-mqpacker": "^7.0.0",
     "cssnano": "^4.1.10",
-    "gulp": "^4.0.0",
+    "del": "^4.1.1",
+    "gulp": "^4.0.1",
     "gulp-babel": "^8.0.0-beta.2",
     "gulp-concat": "^2.6.1",
     "gulp-front-matter": "^1.3.0",
@@ -46,5 +48,9 @@
   "browserslist": [
     "IE 11",
     "Chrome 58"
+  ],
+  "keywords": [
+    "gulp",
+    "babel"
   ]
 }
