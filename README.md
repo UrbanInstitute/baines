@@ -16,17 +16,11 @@ A gulp flavored build tool for quick and modular charts, features, and pym ifram
 
 See gulpfile.js for full list of tasks
 
-`gulp run` will compile everything
+`gulp run` will compile `src/` to the `build/` folder.
 
-`gulp watch` will watch for changes
+`gulp watch` will watch for changes in the `src` folder and send them to the `build/` folder.
 
-In order to compile the `public/` folder, set the node environment to production by entering the following:
-
-`export NODE_ENV=production`
-
-Then run `gulp run` and check that the `public/` folder looks correct.
-
-*Note! Each time you restart your terminal your NODE_ENV will reset*
+`gulp deploy` will compile the `src/` to the `public/` folder.
 
 After this, if you want to push to the gh-pages branch use the following command:
 
@@ -38,7 +32,6 @@ cf: https://gist.github.com/cobyism/4730490
 ### Modifying and adjusting for your needs
 
 - adjust available browsers to compile to at the bottom of the package.json (see Browserslist for more info)
-
 
 ### Tools and Resources
 Getting started, I followed [this tutorial](https://www.sitepoint.com/introduction-gulp-js/) but note that it is run with Gulp 3.x, and not 4.x. The substantive differences are in the following items:
