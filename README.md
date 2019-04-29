@@ -2,7 +2,7 @@
 
 A gulp flavored build tool for quick and modular charts, features, and pym iframes.
 
-![](https://cdn.theatlantic.com/assets/media/img/mt/2018/08/GettyImages_615297724/lead_720_405.jpg?mod=1535079025)
+![](public/images/howdy.png)
 
 ### rough getting started guide
 
@@ -62,3 +62,5 @@ Ordering of JS
 - Pym.js support
 - More sophisticated require or webpack type js management
 - more sophisticated html template/partial injection with conditionals, a la nunjucks
+
+![](https://cdn.theatlantic.com/assets/media/img/mt/2018/08/GettyImages_615297724/lead_720_405.jpg?mod=1535079025)
