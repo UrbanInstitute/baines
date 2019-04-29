@@ -31,6 +31,27 @@ const folder = {
     public: 'public/'
   };
 
+gulp.task('cleanBuild', function () {
+
+  if (!devBuild) {
+    var out = folder.public;
+  } else {
+    var out = folder.build;
+  }
+
+  return del([
+    out
+  ]);
+});
+
+gulp.task('cleanTemp', function () {
+
+  return del([
+    '.tmp/'
+  ]);
+});
+
+
 // image processing
 gulp.task('images', function() {
   if (!devBuild) {
@@ -78,7 +99,7 @@ gulp.task('html', gulp.series('inject','images', function() {
     var out = folder.build;
   }
   
-  var page = gulp.src(folder.tmp + '*.html')      
+  var page = gulp.src(folder.tmp + '*.html')
 
   // minify production code for html...turned off by default
   // if (!devBuild) {
@@ -86,7 +107,7 @@ gulp.task('html', gulp.series('inject','images', function() {
   // }
 
   return page.pipe(gulp.dest(out));
-}));
+},'cleanTemp'));
 
 gulp.task('js', function() {
   if (!devBuild) {
@@ -139,26 +160,6 @@ gulp.task('css', gulp.series('images', function() {
     .pipe(gulp.dest(out + 'css/'));
 
 }));
-
-gulp.task('cleanBuild', function () {
-
-  if (!devBuild) {
-    var out = folder.public;
-  } else {
-    var out = folder.build;
-  }
-
-  return del([
-    out
-  ]);
-});
-
-gulp.task('cleanTemp', function () {
-
-  return del([
-    '.tmp/'
-  ]);
-});
 
 gulp.task("warn", function(done){
 
@@ -224,9 +225,9 @@ gulp.task("setEnviro", function(done){
 })
 
 // run all tasks
-gulp.task('run', gulp.series('warn','cleanBuild','cleanTemp','html', 'css', 'js','cleanTemp'));
+gulp.task('run', gulp.series('warn','cleanBuild','cleanTemp','html', 'css', 'js'));
 
-gulp.task('deploy', gulp.series('setEnviro','warn','cleanBuild','cleanTemp','html', 'css', 'js','cleanTemp'));
+gulp.task('deploy', gulp.series('setEnviro','warn','cleanBuild','cleanTemp','html', 'css', 'js'));
 
 
 // Watch files
